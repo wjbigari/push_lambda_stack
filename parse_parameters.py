@@ -1,5 +1,9 @@
-def parse_parameters(params):
+def parse_parameters(params, version_id_key, version_id):
     param_list = []
+    param_list.append({
+                    'ParameterKey': version_id_key,
+                    'ParameterValue': version_id
+                })
     for item in params:
         if isinstance(item, str):
             try:
