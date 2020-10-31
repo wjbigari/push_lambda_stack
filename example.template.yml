@@ -1,0 +1,24 @@
+AWSTemplateFormatVersion: 2010-09-09
+Parameters:
+  SourceBucket:
+    Type: String
+  SourceKey:
+    Type: String
+  VersionId:
+    Type: String
+  FunctionName:
+    Type: String
+  Role:
+    Type: String
+Resources:
+  Lambda:
+    Type: AWS::Lambda::Function
+    Properties: 
+      Code:
+        S3Bucket: !Ref SourceBucket
+        S3Key: !Ref SourceKey
+        S3ObjectVersion: !Ref VersionId
+      FunctionName: !Ref FunctionName
+      Handler: function.handler
+      Role: !Ref Role
+      Runtime: python3.8
