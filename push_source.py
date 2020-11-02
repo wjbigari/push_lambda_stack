@@ -11,7 +11,7 @@ def get_version(bucket, key, source_path):
         obj.load()
         file_exists = True
     except:
-        print('file does not exist. pushing first verion...')
+        print('file does not exist. pushing first version...')
     if file_exists: # pulled logic out of try catch for clearer logging in nested errors
         local_hash = ''
         remote_hash = ''
