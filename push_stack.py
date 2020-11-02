@@ -13,7 +13,8 @@ def push_stack(stack_name, template, parameters, capabilities, tags):
         print('stack does not exist. attempting to create...')
     with open(template, 'r') as template:
             template_body = template.read()
-    
+    if capabilities is None:
+        capabilities = []
     if stack_exists:
         change_set_name = stack_name + '-' + str(uuid.uuid4()).replace('-','')
         print('creating change set with name: {}'.format(change_set_name))
