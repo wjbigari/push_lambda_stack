@@ -20,7 +20,7 @@ def push_stack(stack_name, template, parameters, capabilities, tags):
         print('creating change set with name: {}'.format(change_set_name))
         create_change_response = cf.create_change_set(ChangeSetName=change_set_name,StackName=stack_name, TemplateBody=template_body, Parameters=parameters, Capabilities=capabilities, Tags=tags)
         changeset = cf.describe_change_set(ChangeSetName=create_change_response['Id'])
-        while changeset['Status'] == 'CREATE_PENDING':
+        while changeset['Status'] == 'CREATE_PENDING' or changeset['Status'] == 'CREATE_IN_PROGRESS':
             time.sleep(5)
             changeset = cf.describe_change_set(ChangeSetName=create_change_response['Id'])
         if changeset['Status'] == 'FAILED':
