@@ -41,9 +41,29 @@ def push_stack(stack_name, template, parameters, capabilities, tags):
                 raise
             updated_set = cf.describe_change_set(ChangeSetName=create_change_response['Id'])
             print('change status:', updated_set['Status'])
+            status = None
+            status_reason = None
+            while status is None or status.endswith('IN_PROGRESS'):
+                time.sleep(10)
+                description = cf.describe_stacks(StackName = stack_name)
+                status = description['Stacks'][0]['StackStatus']
+                status_reason = description['Stacks'][0]['StackStatusReason']
+                print('status:', status)
+            if status != 'UPDATE_COMPLETE':
+                raise Exception(status_reason)
             print('stack updated!')
         return create_change_response['StackId']
     else:
         response = cf.create_stack(StackName=stack_name, TemplateBody=template_body, Parameters=parameters, Capabilities=capabilities, Tags=tags)
         print('created stack!')
+        status = None
+        status_reason = None
+        while status is None or status.endswith('IN_PROGRESS'):
+            time.sleep(10)
+            description = cf.describe_stacks(StackName = stack_name)
+            status = description['Stacks'][0]['StackStatus']
+            status_reason = description['Stacks'][0]['StackStatusReason']
+            print('status:', status)
+        if status != 'CREATE_COMPLETE':
+            raise Exception(status_reason)
         return response['StackId']
