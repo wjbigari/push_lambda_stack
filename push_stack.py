@@ -47,7 +47,8 @@ def push_stack(stack_name, template, parameters, capabilities, tags):
                 time.sleep(10)
                 description = cf.describe_stacks(StackName = stack_name)
                 status = description['Stacks'][0]['StackStatus']
-                status_reason = description['Stacks'][0]['StackStatusReason']
+                if 'StackStatusReason' in description['Stacks'][0]:
+                    status_reason = description['Stacks'][0]['StackStatusReason']
                 print('status:', status)
             if status != 'UPDATE_COMPLETE':
                 raise Exception(status_reason)
@@ -62,7 +63,8 @@ def push_stack(stack_name, template, parameters, capabilities, tags):
             time.sleep(10)
             description = cf.describe_stacks(StackName = stack_name)
             status = description['Stacks'][0]['StackStatus']
-            status_reason = description['Stacks'][0]['StackStatusReason']
+            if 'StackStatusReason' in description['Stacks'][0]:
+                    status_reason = description['Stacks'][0]['StackStatusReason']
             print('status:', status)
         if status != 'CREATE_COMPLETE':
             raise Exception(status_reason)
