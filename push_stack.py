@@ -49,9 +49,9 @@ def push_stack(stack_name, template, parameters, capabilities, tags):
                 status = description['Stacks'][0]['StackStatus']
                 if 'StackStatusReason' in description['Stacks'][0]:
                     status_reason = description['Stacks'][0]['StackStatusReason']
-                print('status:', status)
+                print('stack status:', status)
             if status != 'UPDATE_COMPLETE':
-                raise Exception(status_reason)
+                raise Exception(status_reason, 'Check Cloudformation for more information')
             print('stack updated!')
         return create_change_response['StackId']
     else:
@@ -65,7 +65,7 @@ def push_stack(stack_name, template, parameters, capabilities, tags):
             status = description['Stacks'][0]['StackStatus']
             if 'StackStatusReason' in description['Stacks'][0]:
                     status_reason = description['Stacks'][0]['StackStatusReason']
-            print('status:', status)
+            print('stack status:', status)
         if status != 'CREATE_COMPLETE':
-            raise Exception(status_reason)
+            raise Exception(status_reason, 'Check Cloudformation for more information')
         return response['StackId']
